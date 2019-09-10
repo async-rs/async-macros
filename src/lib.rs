@@ -22,6 +22,7 @@
 
 mod ready;
 mod join;
+mod try_join;
 mod maybe_done;
 mod poll_fn;
 
