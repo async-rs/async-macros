@@ -24,7 +24,8 @@ look at some of these issues:
 - [Issues labeled "help wanted"][help-wanted]
 
 ## References
-None.
+- https://github.com/rust-lang-nursery/futures-rs - the `join` + `try_join`
+  macros are direct ports of the old `macro_rules` impls from `futures-rs`.
 
 ## License
 [MIT](./LICENSE-MIT) OR [Apache-2.0](./LICENSE-APACHE)
