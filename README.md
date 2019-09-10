@@ -14,8 +14,7 @@ $ cargo add async-macros
 ```
 
 ## Safety
-This crate uses ``#![deny(unsafe_code)]`` to ensure everything is implemented in
-100% Safe Rust.
+This crate uses `unsafe` for pin projections.
 
 ## Contributing
 Want to join us? Check out our ["Contributing" guide][contributing] and take a

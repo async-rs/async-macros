@@ -5,9 +5,9 @@
 macro_rules! ready {
     ($e:expr $(,)?) => {
         match $e {
-            $crate::core_reexport::task::Poll::Ready(t) => t,
-            $crate::core_reexport::task::Poll::Pending => {
-                return $crate::core_reexport::task::Poll::Pending
+            $crate::utils::task::Poll::Ready(t) => t,
+            $crate::utils::task::Poll::Pending => {
+                return $crate::utils::task::Poll::Pending
             }
         }
     };
