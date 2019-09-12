@@ -1,5 +1,5 @@
-/// Polls multiple futures simultaneously, resolving to a [`Result`] containing
-/// either a tuple of the successful outputs or an error.
+/// Awaits multiple fallible futures simultaneously, returning all results once
+/// complete.
 ///
 /// `try_join!` is similar to [`join!`], but completes immediately if any of
 /// the futures return an error.

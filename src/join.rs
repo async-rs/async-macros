@@ -1,7 +1,6 @@
 #![allow(non_snake_case)]
 
-/// Polls multiple futures simultaneously, returning a tuple
-/// of all results once complete.
+/// Awaits multiple futures simultaneously, returning all results once complete.
 ///
 /// While `join!(a, b)` is similar to `(a.await, b.await)`,
 /// `join!` polls both futures concurrently and therefore is more efficent.
