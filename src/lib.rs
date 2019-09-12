@@ -30,6 +30,6 @@ pub use maybe_done::{maybe_done, MaybeDone};
 
 /// Helper re-exports for use in macros.
 pub mod utils {
-    pub use core::{future, pin, task};
+    pub use core::{future, pin, task, result};
     pub use super::poll_fn::poll_fn;
 }
