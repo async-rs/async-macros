@@ -20,16 +20,16 @@
 #![warn(missing_docs, unreachable_pub)]
 #![cfg_attr(test, deny(warnings))]
 
-mod ready;
 mod join;
-mod try_join;
 mod maybe_done;
 mod poll_fn;
+mod ready;
+mod try_join;
 
 pub use maybe_done::{maybe_done, MaybeDone};
 
 /// Helper re-exports for use in macros.
 pub mod utils {
-    pub use core::{future, pin, task, result};
     pub use super::poll_fn::poll_fn;
+    pub use core::{future, pin, result, task};
 }
