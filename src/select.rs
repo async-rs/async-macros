@@ -25,7 +25,7 @@
 /// let b = future::ready(1u8);
 /// let c = future::ready(2u8);
 ///
-/// assert_eq!(select!(a, b).await, 1u8);
+/// assert_eq!(select!(a, b, c).await, 1u8);
 /// # });
 /// ```
 #[macro_export]
