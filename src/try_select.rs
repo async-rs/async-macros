@@ -30,7 +30,7 @@
 /// ```
 #[macro_export]
 macro_rules! try_select {
-    ($($fut:ident),* $(,)?) => { {
+    ($($fut:ident),+ $(,)?) => { {
         async {
             $(
                 // Move future into a local so that it is pinned in one place and
@@ -52,12 +52,25 @@ macro_rules! try_select {
                             let fut = unsafe { Pin::new_unchecked(&mut $fut) };
                             let output = fut.take_output().unwrap();
                             return Poll::Ready(output);
+                        } else {
+                            all_done = false;
                         }
+                    } else {
+                        all_done = false;
                     }
                 )*
 
                 if all_done {
-                    unimplemented!();
+                    // We need to iterate over all items to not get an
+                    // "unreachable code" warning.
+                    let mut err = None;
+                    $(
+                        if err.is_none() {
+                            let fut = unsafe { Pin::new_unchecked(&mut $fut) };
+                            err = Some(fut.take_output().unwrap());
+                        }
+                    )*
+                    return Poll::Ready(err.unwrap());
                 } else {
                     Poll::Pending
                 }
