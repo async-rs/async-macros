@@ -1,6 +1,7 @@
 #![allow(non_snake_case)]
 
 /// Waits for either one of several similarly-typed futures to complete.
+///
 /// Awaits multiple futures simultaneously, returning all results once complete.
 ///
 /// `try_select!` is similar to [`select!`], but keeps going if a future
