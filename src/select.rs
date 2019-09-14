@@ -1,13 +1,16 @@
 #![allow(non_snake_case)]
 
+/// Waits for either one of several similarly-typed futures to complete.
 /// Awaits multiple futures simultaneously, returning all results once complete.
 ///
-/// While `join!(a, b)` is similar to `(a.await, b.await)`,
-/// `join!` polls both futures concurrently and therefore is more efficent.
+/// This function will return a new future which awaits for either one of both
+/// futures to complete. If multiple futures are completed at the same time,
+/// resolution will occur in the order that they have been passed.
+///
+/// Note that this macro consumes all futures passed, and once a future is
+/// completed, all other futures are dropped.
 ///
 /// This macro is only usable inside of async functions, closures, and blocks.
-/// It is also gated behind the `async-await` feature of this library, which is
-/// _not_ activated by default.
 ///
 /// # Examples
 ///
@@ -19,6 +22,7 @@
 ///
 /// let a = future::pending();
 /// let b = future::ready(1u8);
+/// let c = future::ready(2u8);
 ///
 /// assert_eq!(select!(a, b).await, 1u8);
 /// # });

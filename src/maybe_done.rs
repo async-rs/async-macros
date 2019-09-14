@@ -43,6 +43,19 @@ impl<Fut: Future> MaybeDone<Fut> {
         }
     }
 
+    /// Returns an [`Option`] containing a reference to the output of the future.
+    /// The output of this method will be [`Some`] if and only if the inner
+    /// future has been completed and [`take_output`](MaybeDone::take_output)
+    /// has not yet been called.
+    #[inline]
+    pub fn output(self: Pin<&Self>) -> Option<&Fut::Output> {
+        let this = self.get_ref();
+        match this {
+            MaybeDone::Done(res) => Some(res),
+            _ => None,
+        }
+    }
+
     /// Attempt to take the output of a `MaybeDone` without driving it
     /// towards completion.
     #[inline]

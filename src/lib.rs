@@ -26,6 +26,7 @@ mod poll_fn;
 mod ready;
 mod select;
 mod try_join;
+mod try_select;
 
 pub use maybe_done::{maybe_done, MaybeDone};
 
