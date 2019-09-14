@@ -1,6 +1,7 @@
 #![allow(non_snake_case)]
 
 /// Waits for either one of several similarly-typed futures to complete.
+///
 /// Awaits multiple futures simultaneously, returning all results once complete.
 ///
 /// This function will return a new future which awaits for either one of both
