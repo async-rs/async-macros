@@ -31,17 +31,21 @@ macro_rules! join {
                 let mut $fut = $crate::maybe_done($fut);
             )*
             $crate::utils::poll_fn(move |cx| {
+                use $crate::utils::future::Future;
+                use $crate::utils::task::Poll;
+                use $crate::utils::pin::Pin;
+
                 let mut all_done = true;
                 $(
-                    all_done &= $crate::utils::future::Future::poll(
-                        unsafe { $crate::utils::pin::Pin::new_unchecked(&mut $fut) }, cx).is_ready();
+                    let fut = unsafe { Pin::new_unchecked(&mut $fut) };
+                    all_done &= Future::poll(fut, cx).is_ready();
                 )*
                 if all_done {
-                    $crate::utils::task::Poll::Ready(($(
-                        unsafe { $crate::utils::pin::Pin::new_unchecked(&mut $fut) }.take_output().unwrap(),
+                    Poll::Ready(($(
+                        unsafe { Pin::new_unchecked(&mut $fut) }.take().unwrap(),
                     )*))
                 } else {
-                    $crate::utils::task::Poll::Pending
+                    Poll::Pending
                 }
             }).await
         }

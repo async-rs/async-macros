@@ -46,7 +46,7 @@ macro_rules! select {
                     let fut = unsafe { Pin::new_unchecked(&mut $fut) };
                     if Future::poll(fut, cx).is_ready() {
                         let fut = unsafe { Pin::new_unchecked(&mut $fut) };
-                        let output = fut.take_output().unwrap();
+                        let output = fut.take().unwrap();
                         return Poll::Ready(output);
                     }
                 )*

@@ -43,39 +43,49 @@
 macro_rules! try_join {
     ($($fut:ident),* $(,)?) => { {
         async {
+            use $crate::utils::future::Future;
+            use $crate::utils::pin::Pin;
+            use $crate::utils::poll_fn;
+            use $crate::utils::result::Result;
+            use $crate::utils::task::Poll;
+
             $(
                 // Move future into a local so that it is pinned in one place and
                 // is no longer accessible by the end user.
                 let mut $fut = $crate::maybe_done($fut);
             )*
 
-            let res: $crate::utils::result::Result<_, _> = $crate::utils::poll_fn(move |cx| {
+            let res: Result<_, _> = poll_fn(move |cx| {
                 let mut all_done = true;
                 $(
-                    if $crate::utils::future::Future::poll(
-                        unsafe { $crate::utils::pin::Pin::new_unchecked(&mut $fut) }, cx).is_pending()
-                    {
+                    let fut = unsafe { Pin::new_unchecked(&mut $fut) };
+                    if Future::poll(fut, cx).is_pending() {
                         all_done = false;
-                    } else if unsafe { $crate::utils::pin::Pin::new_unchecked(&mut $fut) }.output_mut().unwrap().is_err() {
+                    } else if unsafe { Pin::new_unchecked(&mut $fut) }.as_mut().unwrap().is_err() {
                         // `.err().unwrap()` rather than `.unwrap_err()` so that we don't introduce
                         // a `T: Debug` bound.
-                        return $crate::utils::task::Poll::Ready(
-                            $crate::utils::result::Result::Err(
-                                unsafe { $crate::utils::pin::Pin::new_unchecked(&mut $fut) }.take_output().unwrap().err().unwrap()
-                            )
-                        );
+                        return Poll::Ready(
+                            Result::Err(unsafe { Pin::new_unchecked(&mut $fut) }
+                                .take()
+                                .unwrap()
+                                .err()
+                                .unwrap()
+                        ));
                     }
                 )*
                 if all_done {
-                    $crate::utils::task::Poll::Ready(
-                        $crate::utils::result::Result::Ok(($(
-                            // `.ok().unwrap()` rather than `.unwrap()` so that we don't introduce
-                            // an `E: Debug` bound.
-                            unsafe { $crate::utils::pin::Pin::new_unchecked(&mut $fut) }.take_output().unwrap().ok().unwrap(),
-                        )*))
-                    )
+                    let res = ($(
+                        // `.ok().unwrap()` rather than `.unwrap()` so that we don't introduce
+                        // an `E: Debug` bound.
+                        unsafe { Pin::new_unchecked(&mut $fut) }
+                            .take()
+                            .unwrap()
+                            .ok()
+                            .unwrap(),
+                    )*);
+                    Poll::Ready(Result::Ok(res))
                 } else {
-                    $crate::utils::task::Poll::Pending
+                    Poll::Pending
                 }
             }).await;
             res
