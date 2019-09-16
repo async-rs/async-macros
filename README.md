@@ -32,8 +32,8 @@ look at some of these issues:
 
 [1]: https://img.shields.io/crates/v/async-macros.svg?style=flat-square
 [2]: https://crates.io/crates/async-macros
-[3]: https://img.shields.io/travis/async-rs/async-macros/master.svg?style=flat-square
-[4]: https://travis-ci.org/async-rs/async-macros
+[3]: https://travis-ci.com/async-rs/async-macros.svg?branch=master
+[4]: https://travis-ci.com/async-rs/async-macros
 [5]: https://img.shields.io/crates/d/async-macros.svg?style=flat-square
 [6]: https://crates.io/crates/async-macros
 [7]: https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square
