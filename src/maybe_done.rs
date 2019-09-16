@@ -32,7 +32,6 @@ impl<Fut: Future> MaybeDone<Fut> {
     /// The output of this method will be [`Some`] if and only if the inner
     /// future has been completed and [`take`](MaybeDone::take)
     /// has not yet been called.
-    #[allow(clippy::wrong_self_convention)]
     #[inline]
     pub fn output(self: Pin<&Self>) -> Option<&Fut::Output> {
         let this = self.get_ref();
