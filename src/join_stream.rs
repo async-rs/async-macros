@@ -1,4 +1,3 @@
-use std::marker::PhantomData;
 use std::pin::Pin;
 use std::task::{Context, Poll};
 
@@ -8,26 +7,21 @@ use futures_core::Stream;
 ///
 /// This stream is returned by `join!`.
 #[derive(Debug)]
-pub struct JoinStream<L, R, T> {
+pub struct JoinStream<L, R> {
     left: L,
     right: R,
-    _marker: PhantomData<T>,
 }
 
-impl<L, R, T> Unpin for JoinStream<L, R, T> {}
+impl<L, R> Unpin for JoinStream<L, R> {}
 
-impl<L, R, T> JoinStream<L, R, T> {
+impl<L, R> JoinStream<L, R> {
     #[doc(hidden)]
     pub fn new(left: L, right: R) -> Self {
-        Self {
-            left,
-            right,
-            _marker: PhantomData,
-        }
+        Self { left, right }
     }
 }
 
-impl<L, R, T> Stream for JoinStream<L, R, T>
+impl<L, R, T> Stream for JoinStream<L, R>
 where
     L: Stream<Item = T> + Unpin,
     R: Stream<Item = T> + Unpin,
