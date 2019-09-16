@@ -28,33 +28,33 @@ impl<Fut: Future> MaybeDone<Fut> {
         Self::Future(future)
     }
 
-    /// Returns an [`Option`] containing a mutable reference to the output of the future.
-    /// The output of this method will be [`Some`] if and only if the inner
-    /// future has been completed and [`take`](MaybeDone::take)
-    /// has not yet been called.
-    #[allow(clippy::wrong_self_convention)]
-    #[inline]
-    pub fn as_mut(self: Pin<&mut Self>) -> Option<&mut Fut::Output> {
-        unsafe {
-            let this = self.get_unchecked_mut();
-            match this {
-                MaybeDone::Done(res) => Some(res),
-                _ => None,
-            }
-        }
-    }
-
     /// Returns an [`Option`] containing a reference to the output of the future.
     /// The output of this method will be [`Some`] if and only if the inner
     /// future has been completed and [`take`](MaybeDone::take)
     /// has not yet been called.
     #[allow(clippy::wrong_self_convention)]
     #[inline]
-    pub fn as_ref(self: Pin<&Self>) -> Option<&Fut::Output> {
+    pub fn output(self: Pin<&Self>) -> Option<&Fut::Output> {
         let this = self.get_ref();
         match this {
             MaybeDone::Done(res) => Some(res),
             _ => None,
+        }
+    }
+
+    /// Returns an [`Option`] containing a mutable reference to the output of the future.
+    /// The output of this method will be [`Some`] if and only if the inner
+    /// future has been completed and [`take`](MaybeDone::take)
+    /// has not yet been called.
+    #[allow(clippy::wrong_self_convention)]
+    #[inline]
+    pub fn output_mut(self: Pin<&mut Self>) -> Option<&mut Fut::Output> {
+        unsafe {
+            let this = self.get_unchecked_mut();
+            match this {
+                MaybeDone::Done(res) => Some(res),
+                _ => None,
+            }
         }
     }
 
@@ -75,6 +75,8 @@ impl<Fut: Future> MaybeDone<Fut> {
             }
         }
     }
+
+    // fn ok(self) -> Option<Fut::Output> {}
 }
 
 impl<Fut: Future> Future for MaybeDone<Fut> {

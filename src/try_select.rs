@@ -52,7 +52,7 @@ macro_rules! try_select {
                     let fut = unsafe { Pin::new_unchecked(&mut $fut) };
                     if Future::poll(fut, cx).is_ready() {
                         let fut = Pin::new(&$fut);
-                        if fut.as_ref().unwrap().is_ok() {
+                        if fut.output().unwrap().is_ok() {
                             let fut = unsafe { Pin::new_unchecked(&mut $fut) };
                             let res = fut.take().unwrap();
                             return Poll::Ready(res);

@@ -61,7 +61,7 @@ macro_rules! try_join {
                     let fut = unsafe { Pin::new_unchecked(&mut $fut) };
                     if Future::poll(fut, cx).is_pending() {
                         all_done = false;
-                    } else if unsafe { Pin::new_unchecked(&mut $fut) }.as_mut().unwrap().is_err() {
+                    } else if unsafe { Pin::new_unchecked(&mut $fut) }.output_mut().unwrap().is_err() {
                         // `.err().unwrap()` rather than `.unwrap_err()` so that we don't introduce
                         // a `T: Debug` bound.
                         return Poll::Ready(
