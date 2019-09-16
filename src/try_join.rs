@@ -52,7 +52,7 @@ macro_rules! try_join {
             $(
                 // Move future into a local so that it is pinned in one place and
                 // is no longer accessible by the end user.
-                let mut $fut = $crate::maybe_done($fut);
+                let mut $fut = $crate::MaybeDone::new($fut);
             )*
 
             let res: Result<_, _> = poll_fn(move |cx| {

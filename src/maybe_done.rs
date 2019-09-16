@@ -10,11 +10,6 @@ use core::pin::Pin;
 use futures_core::ready;
 use futures_core::task::{Context, Poll};
 
-/// Create a new instance of `MaybeDone`.
-pub fn maybe_done<Fut: Future>(future: Fut) -> MaybeDone<Fut> {
-    MaybeDone::Future(future)
-}
-
 /// A future that may have completed.
 #[derive(Debug)]
 pub enum MaybeDone<Fut: Future> {
@@ -28,10 +23,16 @@ pub enum MaybeDone<Fut: Future> {
 }
 
 impl<Fut: Future> MaybeDone<Fut> {
+    /// Create a new instance of `MaybeDone`.
+    pub fn new(future: Fut) -> MaybeDone<Fut> {
+        Self::Future(future)
+    }
+
     /// Returns an [`Option`] containing a mutable reference to the output of the future.
     /// The output of this method will be [`Some`] if and only if the inner
     /// future has been completed and [`take`](MaybeDone::take)
     /// has not yet been called.
+    #[allow(clippy::wrong_self_convention)]
     #[inline]
     pub fn as_mut(self: Pin<&mut Self>) -> Option<&mut Fut::Output> {
         unsafe {
@@ -47,6 +48,7 @@ impl<Fut: Future> MaybeDone<Fut> {
     /// The output of this method will be [`Some`] if and only if the inner
     /// future has been completed and [`take`](MaybeDone::take)
     /// has not yet been called.
+    #[allow(clippy::wrong_self_convention)]
     #[inline]
     pub fn as_ref(self: Pin<&Self>) -> Option<&Fut::Output> {
         let this = self.get_ref();

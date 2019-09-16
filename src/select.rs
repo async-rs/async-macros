@@ -35,7 +35,7 @@ macro_rules! select {
             $(
                 // Move future into a local so that it is pinned in one place and
                 // is no longer accessible by the end user.
-                let mut $fut = $crate::maybe_done($fut);
+                let mut $fut = $crate::MaybeDone::new($fut);
             )*
             $crate::utils::poll_fn(move |cx| {
                 use $crate::utils::future::Future;
