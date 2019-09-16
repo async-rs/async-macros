@@ -58,9 +58,9 @@ where
 /// use futures::stream::{self, StreamExt};
 /// use futures::future::ready;
 ///
-/// let a = &mut stream::once(ready(1u8));
-/// let b = &mut stream::once(ready(2u8));
-/// let c = &mut stream::once(ready(3u8));
+/// let a = stream::once(ready(1u8));
+/// let b = stream::once(ready(2u8));
+/// let c = stream::once(ready(3u8));
 ///
 /// let mut s = join!(a, b, c);
 ///
