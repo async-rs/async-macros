@@ -28,7 +28,7 @@ mod select;
 mod try_join;
 mod try_select;
 
-pub use maybe_done::{maybe_done, MaybeDone};
+pub use maybe_done::MaybeDone;
 
 /// Helper re-exports for use in macros.
 pub mod utils {

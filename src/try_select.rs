@@ -6,7 +6,7 @@
 ///
 /// `try_select!` is similar to [`select!`], but keeps going if a future
 /// resolved to an error until all futures have been resolved. In which case
-/// the last error found will be returned.
+/// the error of the last item in the list will be returned.
 ///
 /// This macro is only usable inside of async functions, closures, and blocks.
 ///
@@ -42,7 +42,7 @@ macro_rules! try_select {
             $(
                 // Move future into a local so that it is pinned in one place and
                 // is no longer accessible by the end user.
-                let mut $fut = $crate::maybe_done($fut);
+                let mut $fut = $crate::MaybeDone::new($fut);
             )*
 
             let res: Result<_, _> = poll_fn(move |cx| {
