@@ -10,6 +10,11 @@ fn main() {
             let c = future::ready(Ok(1u8));
 
             assert_eq!(try_select!(a, b, c).await?, 1u8);
+
+            use async_macros::JoinStream;
+            use futures::stream::{self, StreamExt};
+            use futures::future::ready;
+
             Ok(())
         }
         main().await.unwrap();
