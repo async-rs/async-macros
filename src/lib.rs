@@ -3,7 +3,6 @@
 //! # Examples
 //!
 //! ```
-//! #![feature(async_await)]
 //! # futures::executor::block_on(async {
 //! use async_macros::join;
 //! use futures::future;
@@ -21,6 +20,7 @@
 #![cfg_attr(test, deny(warnings))]
 
 mod join;
+mod join_stream;
 mod maybe_done;
 mod poll_fn;
 mod ready;
@@ -28,6 +28,7 @@ mod select;
 mod try_join;
 mod try_select;
 
+pub use join_stream::JoinStream;
 pub use maybe_done::MaybeDone;
 
 /// Helper re-exports for use in macros.
