@@ -9,7 +9,7 @@
 ///
 /// # Examples
 ///
-/// ```
+/// ```ignore
 /// #
 /// use std::cell::Cell;
 ///
