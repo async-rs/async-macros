@@ -97,7 +97,7 @@ macro_rules! println {
             if let Err(e) = ::async_std::io::stdout().write_fmt(args).await {
                 $crate::utils::panic!("failed printing to stdout: {}", e);
             }
-            $crate::utils::print!("\n").await;
+            $crate::print!("\n").await;
         }
     );
 }
