@@ -47,6 +47,7 @@
 macro_rules! print {
     ($($arg:tt)*) => (
         async {
+            use ::async_std::prelude::*;
             let args = $crate::utils::format_args!($($arg)*);
             if let Err(e) = ::async_std::io::stdout().write_fmt(args).await {
                 $crate::utils::panic!("failed printing to stdout: {}", e);
@@ -91,10 +92,12 @@ macro_rules! println {
     () => ($crate::print!("\n"));
     ($($arg:tt)*) => (
         async {
+            use ::async_std::prelude::*;
             let args = $crate::utils::format_args!($($arg)*);
             if let Err(e) = ::async_std::io::stdout().write_fmt(args).await {
                 $crate::utils::panic!("failed printing to stdout: {}", e);
             }
+            $crate::utils::print!("\n").await;
         }
     );
 }
@@ -130,9 +133,10 @@ macro_rules! println {
 macro_rules! eprint {
     ($($arg:tt)*) => (
         async {
+            use ::async_std::prelude::*;
             let args = $crate::utils::format_args!($($arg)*);
             if let Err(e) = ::async_std::io::stderr().write_fmt(args).await {
-                $crate::panic!("failed printing to stderr: {}", e);
+                $crate::utils::panic!("failed printing to stderr: {}", e);
             }
         }
     );
@@ -170,10 +174,12 @@ macro_rules! eprintln {
     () => ($crate::eprint!("\n"));
     ($($arg:tt)*) => (
         async {
+            use ::async_std::prelude::*;
             let args = $crate::utils::format_args!($($arg)*);
             if let Err(e) = ::async_std::io::stderr().write_fmt(args).await {
-                $crate::panic!("failed printing to stderr: {}", e);
+                $crate::utils::panic!("failed printing to stderr: {}", e);
             }
+            $crate::eprint!("\n").await;
         }
     );
 }
