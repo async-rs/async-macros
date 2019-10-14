@@ -45,15 +45,15 @@
 /// ```
 #[macro_export]
 macro_rules! print {
-    ($($arg:tt)*) => (
-        async {
+    ($($arg:tt)*) => ({
+        let args = $crate::utils::format_args!($($arg)*);
+        async move {
             use ::async_std::prelude::*;
-            let args = $crate::utils::format_args!($($arg)*);
             if let Err(e) = ::async_std::io::stdout().write_fmt(args).await {
                 $crate::utils::panic!("failed printing to stdout: {}", e);
             }
         }
-    );
+    });
 }
 
 /// Prints to the standard output, with a newline.
@@ -90,16 +90,16 @@ macro_rules! print {
 #[macro_export]
 macro_rules! println {
     () => ($crate::print!("\n"));
-    ($($arg:tt)*) => (
-        async {
+    ($($arg:tt)*) => ({
+        let args = $crate::utils::format_args!($($arg)*);
+        async move {
             use ::async_std::prelude::*;
-            let args = $crate::utils::format_args!($($arg)*);
             if let Err(e) = ::async_std::io::stdout().write_fmt(args).await {
                 $crate::utils::panic!("failed printing to stdout: {}", e);
             }
             $crate::print!("\n").await;
         }
-    );
+    });
 }
 
 /// Prints to the standard error.
@@ -131,15 +131,15 @@ macro_rules! println {
 /// ```
 #[macro_export]
 macro_rules! eprint {
-    ($($arg:tt)*) => (
-        async {
+    ($($arg:tt)*) => ({
+        let args = $crate::utils::format_args!($($arg)*);
+        async move {
             use ::async_std::prelude::*;
-            let args = $crate::utils::format_args!($($arg)*);
             if let Err(e) = ::async_std::io::stderr().write_fmt(args).await {
                 $crate::utils::panic!("failed printing to stderr: {}", e);
             }
         }
-    );
+    });
 }
 
 /// Prints to the standard error, with a newline.
@@ -172,14 +172,14 @@ macro_rules! eprint {
 #[macro_export]
 macro_rules! eprintln {
     () => ($crate::eprint!("\n"));
-    ($($arg:tt)*) => (
-        async {
+    ($($arg:tt)*) => ({
+        let args = $crate::utils::format_args!($($arg)*);
+        async move {
             use ::async_std::prelude::*;
-            let args = $crate::utils::format_args!($($arg)*);
             if let Err(e) = ::async_std::io::stderr().write_fmt(args).await {
                 $crate::utils::panic!("failed printing to stderr: {}", e);
             }
             $crate::eprint!("\n").await;
         }
-    );
+    });
 }
