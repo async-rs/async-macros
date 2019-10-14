@@ -31,9 +31,12 @@ mod try_select;
 
 pub use join_stream::JoinStream;
 pub use maybe_done::MaybeDone;
+pub use std::{write, writeln};
 
 /// Helper re-exports for use in macros.
 pub mod utils {
     pub use super::poll_fn::poll_fn;
     pub use core::{future, pin, result, task};
+    pub use std::format_args;
+    pub use std::panic;
 }

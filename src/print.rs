@@ -47,9 +47,9 @@
 macro_rules! print {
     ($($arg:tt)*) => (
         async {
-            let args = format_args!($($arg)*);
-            if let Err(e) = stdout().write_fmt(args).await {
-                panic!("failed printing to stdout: {}", e);
+            let args = $crate::utils::format_args!($($arg)*);
+            if let Err(e) = ::async_std::io::stdout().write_fmt(args).await {
+                $crate::utils::panic!("failed printing to stdout: {}", e);
             }
         }
     );
@@ -91,9 +91,9 @@ macro_rules! println {
     () => ($crate::print!("\n"));
     ($($arg:tt)*) => (
         async {
-            let args = format_args!($($arg)*);
-            if let Err(e) = stdout().write_fmt(args).await {
-                panic!("failed printing to stdout: {}", e);
+            let args = $crate::utils::format_args!($($arg)*);
+            if let Err(e) = ::async_std::io::stdout().write_fmt(args).await {
+                $crate::utils::panic!("failed printing to stdout: {}", e);
             }
         }
     );
@@ -130,9 +130,9 @@ macro_rules! println {
 macro_rules! eprint {
     ($($arg:tt)*) => (
         async {
-            let args = format_args!($($arg)*);
-            if let Err(e) = stderr().write_fmt(args).await {
-                panic!("failed printing to stderr: {}", e);
+            let args = $crate::utils::format_args!($($arg)*);
+            if let Err(e) = ::async_std::io::stderr().write_fmt(args).await {
+                $crate::panic!("failed printing to stderr: {}", e);
             }
         }
     );
@@ -170,9 +170,9 @@ macro_rules! eprintln {
     () => ($crate::eprint!("\n"));
     ($($arg:tt)*) => (
         async {
-            let args = format_args!($($arg)*);
-            if let Err(e) = stderr().write_fmt(args).await {
-                panic!("failed printing to stderr: {}", e);
+            let args = $crate::utils::format_args!($($arg)*);
+            if let Err(e) = ::async_std::io::stderr().write_fmt(args).await {
+                $crate::panic!("failed printing to stderr: {}", e);
             }
         }
     );
