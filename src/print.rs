@@ -20,7 +20,7 @@
 ///
 /// # Examples
 ///
-/// ```
+/// ```ignore
 /// # async_std::task::block_on(async {
 /// #
 /// use async_std::prelude::*;
@@ -76,7 +76,7 @@ macro_rules! print {
 ///
 /// # Examples
 ///
-/// ```
+/// ```ignore
 /// # async_std::task::block_on(async {
 /// #
 /// use async_std::println;
@@ -120,7 +120,7 @@ macro_rules! println {
 ///
 /// # Examples
 ///
-/// ```
+/// ```ignore
 /// # async_std::task::block_on(async {
 /// #
 /// use async_std::eprint;
@@ -160,7 +160,7 @@ macro_rules! eprint {
 ///
 /// # Examples
 ///
-/// ```
+/// ```ignore
 /// # async_std::task::block_on(async {
 /// #
 /// use async_std::eprintln;
