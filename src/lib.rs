@@ -26,9 +26,9 @@ mod poll_fn;
 mod print;
 mod ready;
 mod select;
+mod task_local;
 mod try_join;
 mod try_select;
-mod task_local;
 
 pub use join_stream::JoinStream;
 pub use maybe_done::MaybeDone;
