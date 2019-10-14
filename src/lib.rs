@@ -23,6 +23,7 @@ mod join;
 mod join_stream;
 mod maybe_done;
 mod poll_fn;
+mod print;
 mod ready;
 mod select;
 mod try_join;
