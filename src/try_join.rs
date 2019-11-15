@@ -12,7 +12,6 @@
 /// `Ok` of a tuple of the values:
 ///
 /// ```
-/// #![feature(async_await)]
 /// # futures::executor::block_on(async {
 /// use async_macros::try_join;
 /// use futures::future;
@@ -28,7 +27,6 @@
 /// that error:
 ///
 /// ```
-/// #![feature(async_await)]
 /// # futures::executor::block_on(async {
 /// use async_macros::try_join;
 /// use futures::future;

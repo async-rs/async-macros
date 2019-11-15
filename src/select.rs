@@ -16,7 +16,6 @@
 /// # Examples
 ///
 /// ```
-/// #![feature(async_await)]
 /// # futures::executor::block_on(async {
 /// use async_macros::select;
 /// use futures::future;
